@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guerrillas</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">WebSiteName</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Home</a></li>
+                <li><a href="#">Page 1</a></li>
+                <li><a href="signin.html">Iniciar Sesion</a></li>
+                <li><a href="settings.html">Settings</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <button onclick="traer()">Ver Guerrillas</button>
+    </div>
+    <div id="contenido" class="container">
+
+    </div>
+    <div class="container">
+        <table id="myTable" class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Guerrilla</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+    <script>
+        function traer() {
+            data = sessionStorage.getItem('url')
+            const requestURL = 'http://' + data + '/guerrilla';
+            const request = new XMLHttpRequest();
+            request.open('GET', requestURL);
+            request.responseType = 'json';
+            request.send();
+            request.onload = function () {
+                const guerrilla = request.response;
+                //data = JSON.parse(guerrilla);
+                for (let index = 0; index < guerrilla.length; index++) {
+                    var tableRef = document.getElementById('myTable').getElementsByTagName('tbody')[0];
+                    var newRow = tableRef.insertRow();
+                    var newCell = newRow.insertCell(0);
+                    var newCell2 = newRow.insertCell(1);
+                    var newText = document.createTextNode(guerrilla[index].name);
+                    newCell.appendChild(newText);
+                    var btn = document.createElement('a');
+                    btn.type = "a";
+                    btn.className = "btn btn-primary";
+                    btn.value = 'http://' + data + '/guerrilla/attack/'+guerrilla[index].name;
+                    btn.href = 'http://' + data + '/guerrilla/attack/'+guerrilla[index].name;
+                    btn.text = 'attack'
+                    newCell2.appendChild(btn);
+                }
+                console.log(guerrilla[0].name)
+            }
+        }
+    </script>
+</body>
+
+</html>
