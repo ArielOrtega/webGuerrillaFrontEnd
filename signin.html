@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,50 +9,53 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
+
 <body>
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#">WebSiteName</a>
+                <a class="navbar-brand" href="#">WebGuerrilla</a>
             </div>
             <ul class="nav navbar-nav">
                 <li class="active"><a href="#">Home</a></li>
-                <li><a href="#">Page 1</a></li>
-                <li><a href="#">Page 3</a></li>
+                <li><a href="guerillas.html">Guerrilas</a></li>
+                <li><a href="signin.html">Iniciar Sesion</a></li>
                 <li><a href="settings.html">Settings</a></li>
             </ul>
         </div>
     </nav>
     <div class="container">
-        <form>
-            <input type="text" id="name" placeholder="">
-            <button onclick="traer()">Sign In</button>
-            <button><a href="login.html">Login</a></button>
-        </form>
-        <div class="container" id="contenido">
-
+        <div class="col-xs-3">
+            <h2>Iniciar Sesión</h2>
+            <br>
+            <input type="text" id="name" placeholder="email" class="form-control">
+            <br>
+            <button onclick="traer()" class="btn btn-success">Sign In</button>
+            <div class="container" id="contenido">
+            </div>
         </div>
     </div>
     <script>
         function traer() {
+            data = sessionStorage.getItem('url')
             guerrillaName = document.getElementById('name').value;
-            data = sessionStorage.setItem('guerrillaName', guerrillaName);
-            const requestURL = 'http://' + data + '/guerrilla/'+ guerrillaName;
+            sessionStorage.setItem('guerrillaName', guerrillaName);
+            const requestURL = 'http://' + data + '/guerrilla/?email=' + guerrillaName;
             const request = new XMLHttpRequest();
             request.open('GET', requestURL);
             request.responseType = 'json';
             request.send();
             request.onload = function () {
-                const guerrilla = request.response;
-                //data = JSON.parse(guerrilla);
-                if(guerrilla.lenght > 0 ){
-                    contenido.innerHTML = `
+                guerrilla = request.response;
+                sessionStorage.setItem('guerrillaName',guerrilla[0].name)
+                contenido.innerHTML = `
 	                <h3>Bienvenido ${guerrilla[0].name}</h3>
 	                `
-                }
-                alert(guerrilla.name)
             }
+            //data = JSON.parse(guerrilla);
+
         }
     </script>
 </body>
+
 </html>

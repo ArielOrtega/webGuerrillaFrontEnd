@@ -14,7 +14,7 @@
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#">WebSiteName</a>
+                <a class="navbar-brand" href="#">WebGuerrilla</a>
             </div>
             <ul class="nav navbar-nav">
                 <li class="active"><a href="#">Home</a></li>
@@ -26,23 +26,21 @@
     </nav>
     <div class="container">
         <label>Ingrese la dirección del servidor junto con el puerto [0.0.0.0:4000]</label>
-        <form>
-            <input type="text" id="ip" placeholder="">
+        <div>
+            <input type="text" id="ip" placeholder="" required>
             <button onclick="traer()">Conectar</button>
-        </form>
+        </div>
+        <p id="demo"></p>
     </div>
 
-    <div id="contenido">
-
-    </div>
     <script>
         var contenido = document.querySelector('#contenido')
         function traer() {
             data = document.getElementById('ip').value;
-            sessionStorage.setItem('url', data)
-            contenido.innerHTML = `
-	                <h3>Dirección configurada!</h3>
-	                `
+            if (data.length > 0) {
+                sessionStorage.setItem('url', data)
+                document.getElementById("demo").innerHTML = "Direccion Guardada";
+            }
         }
     </script>
 </body>
