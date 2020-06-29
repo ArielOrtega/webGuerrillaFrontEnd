@@ -14,11 +14,11 @@
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#">WebSiteName</a>
+                <a class="navbar-brand" href="#">WebGuerrilla</a>
             </div>
             <ul class="nav navbar-nav">
                 <li class="active"><a href="#">Home</a></li>
-                <li><a href="#">Page 1</a></li>
+                <li><a href="guerillas.html">Guerrilas</a></li>
                 <li><a href="signin.html">Iniciar Sesion</a></li>
                 <li><a href="settings.html">Settings</a></li>
             </ul>
@@ -34,6 +34,7 @@
         <table id="myTable" class="table">
             <thead class="thead-dark">
                 <tr>
+                    <th>Rank</th>
                     <th>Guerrilla</th>
                     <th>Action</th>
                 </tr>
@@ -54,22 +55,29 @@
             request.onload = function () {
                 const guerrilla = request.response;
                 //data = JSON.parse(guerrilla);
+                guerrilla.sort(function (a, b) {
+                    return b.rank - a.rank;
+                });
                 for (let index = 0; index < guerrilla.length; index++) {
                     var tableRef = document.getElementById('myTable').getElementsByTagName('tbody')[0];
                     var newRow = tableRef.insertRow();
-                    var newCell = newRow.insertCell(0);
-                    var newCell2 = newRow.insertCell(1);
-                    var newText = document.createTextNode(guerrilla[index].name);
+                    var rankCell = newRow.insertCell(0);
+                    var newCell = newRow.insertCell(1);
+                    var newCell2 = newRow.insertCell(2);
+                    var newText = document.createTextNode(guerrilla[index].guerrillaName);
+                    var newRank = document.createTextNode(guerrilla[index].rank);
+                    rankCell.appendChild(newRank);
                     newCell.appendChild(newText);
-                    var btn = document.createElement('a');
-                    btn.type = "a";
-                    btn.className = "btn btn-primary";
-                    btn.value = 'http://' + data + '/guerrilla/attack/'+guerrilla[index].name;
-                    btn.href = 'http://' + data + '/guerrilla/attack/'+guerrilla[index].name;
-                    btn.text = 'attack'
-                    newCell2.appendChild(btn);
+                    if (guerrilla[index].name != sessionStorage.getItem('guerrillaName')) {
+                        var btn = document.createElement('a');
+                        btn.type = "a";
+                        btn.className = "btn btn-primary";
+                        btn.value = 'http://' + data + '/guerrilla/attack/' + guerrilla[index].guerrillaName;
+                        btn.href = 'http://' + data + '/guerrilla/attack/' + guerrilla[index].guerrillaName + '?guerrillaSrc=' + sessionStorage.getItem('guerrillaName');
+                        btn.text = 'attack'
+                        newCell2.appendChild(btn);
+                    }
                 }
-                console.log(guerrilla[0].name)
             }
         }
     </script>
