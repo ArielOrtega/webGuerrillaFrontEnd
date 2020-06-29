@@ -75,8 +75,7 @@
             data = sessionStorage.getItem('url')
             guerrillaName = sessionStorage.getItem('guerrillaName')
             //const requestURL = 'http://' + data + '/guerrilla';
-            const requestURL = 'http://' + data + '/guerrilla/'+ 'GregoryArmy';
-            //const requestURL = 'http://' + data + '/guerrilla/attack/'+ guerrillaName ;
+            const requestURL = 'http://' + data + '/guerrilla/'+ guerrillaName;
 
             const request = new XMLHttpRequest();
             request.open('GET', requestURL);
@@ -175,8 +174,8 @@
 
             guerrillaName = sessionStorage.getItem('guerrillaName')
             data = sessionStorage.getItem('url')
-            //const requestURL = 'http://' + data + '/guerrilla/' + guerrillaName +'/units';
-            const requestURL = 'http://' + data + '/guerrilla/' + 'GregoryArmy' +'/units';
+            const requestURL = 'http://' + data + '/guerrilla/' + guerrillaName +'/units';
+            //const requestURL = 'http://' + data + '/guerrilla/' + 'GregoryArmy' +'/units';
             var params = {
                 assault: rAssault,
                 engineer: rEngineer,
