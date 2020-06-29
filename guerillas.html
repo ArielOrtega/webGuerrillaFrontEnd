@@ -75,7 +75,7 @@
                         btn.className = "btn btn-primary";
                         btn.id = guerrilla[index].guerrillaName;
                         //btn.href = 'Attack.html';//+ data + '/guerrilla/attack/' + guerrilla[index].guerrillaName + '?guerrillaSrc=' + sessionStorage.getItem('guerrillaName');
-                        btn.text = 'attack'
+                        btn.innerHTML = 'attack'
                         newCell2.onclick = function () {
                             var c = confirm("Seguro que desea atacar a: " + guerrilla[index].guerrillaName);
                             if (c === true) {
