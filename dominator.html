@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guerrillas</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">WebSiteName</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Home</a></li>
+                <li><a href="#">Page 1</a></li>
+                <li><a href="#">Page 2</a></li>
+                <li><a href="settings.html">Settings</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container" style="text-align:center;">
+        <label id="nameTitle"> </label> <!-- Muestra el nombre de la guerrilla -->
+    </div>
+
+
+    <div class="container">
+        <button onclick="traer()">Ver Guerrilla</button>
+    </div>
+
+    <div id="contenido" class="container">
+
+    </div>
+
+    <div class="container">
+        <table id="myTable" class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Resource</th>
+                    <th>Quantity</th>
+                </tr>
+            </thead>
+            <tbody>
+ 
+            </tbody>
+        </table>
+    </div>
+
+    <div class="container">
+        
+        <br> <br>
+        <label for="rAssault"> Assault </label> &nbsp &nbsp
+        <input type="number" id="rAssault" value="0" min="0"> <br>
+
+        <label for="rBunker"> Bunker </label> &nbsp &nbsp
+        <input type="number" id="rBunker" value="0" min="0"> <br>
+
+        <label for="rEngineer"> Engineer </label> &nbsp &nbsp  
+        <input type="number" id="rEngineer" value="0" min="0"> <br>
+
+        <label for="rTank"> Tank </label> &nbsp &nbsp 
+        <input type="number" id="rTank" value="0" min="0"> <br> <br>
+
+        <a class="btn btn-primary" id="buttonBuy" type="button"  > Buy resources </a>    
+    </div>
+
+    
+    <script>
+        function traer() {
+            data = sessionStorage.getItem('url')
+            guerrillaName = sessionStorage.getItem('guerrillaName')
+            //const requestURL = 'http://' + data + '/guerrilla';
+            const requestURL = 'http://' + data + '/guerrilla/'+ guerrillaName;
+            //const requestURL = 'http://' + data + '/guerrilla/attack/'+ guerrillaName ;
+
+            const request = new XMLHttpRequest();
+            request.open('GET', requestURL);
+            request.responseType = 'json';
+            request.send();
+            request.onload = function () {
+                const guerrilla = request.response;
+                //data = JSON.parse(guerrilla);`
+
+                document.getElementById("nameTitle").innerHTML = `<h3> ${guerrilla.name}</h3>`;
+
+                for (let index = 0; index < 7; index++) {
+                    var tableRef = document.getElementById('myTable').getElementsByTagName('tbody')[0];
+                    var newRow1 = tableRef.insertRow();
+                    var cellResource = newRow1.insertCell(0);
+                    var cellQuantity = newRow1.insertCell(1);
+                    var cellbuy = newRow1.insertCell(2)
+                    if(index==0){
+                        //var buyRe = document.createElement()
+                        var resource = document.createTextNode("Oil");
+                        var quantity = document.createTextNode(guerrilla.resources.oil);
+                    }
+                    else if(index==1){
+                        var resource = document.createTextNode("Money");
+                        var quantity = document.createTextNode(guerrilla.resources.money);
+                    }
+                    else if(index==2){
+                        var resource = document.createTextNode("People");
+                        var quantity = document.createTextNode(guerrilla.resources.people);
+                    }
+                    else if(index==3){
+                        var resource = document.createTextNode("Bunker");
+                        var quantity = document.createTextNode(guerrilla.buildings.bunker);
+                    }
+                    else if(index==4){
+                        var resource = document.createTextNode("Assault");
+                        var quantity = document.createTextNode(guerrilla.army.assault);
+                    }
+                    else if(index==5){
+                        var resource = document.createTextNode("Engineer");
+                        var quantity = document.createTextNode(guerrilla.army.engineer);
+                    }
+                    else if(index==6){
+                        var resource = document.createTextNode("Tank");
+                        var quantity = document.createTextNode(guerrilla.army.tank);
+                    }
+
+                    cellResource.appendChild(resource);
+                    cellQuantity.appendChild(quantity);
+                    //cellbuy.appendChild(buyRe);
+
+                }//for
+                console.log(guerrilla.name)
+
+
+                var buttonBuy = document.getElementById('buttonBuy');
+                    //buttonBuy.innerHTML = 'Buy resources';
+                    buttonBuy.href = "settings.html";
+                    buttonBuy.value = href="settings.html";
+                 //const requestURL = 'http://' + data + '/guerrilla/attack/'+ guerrillaName ;    
+                    
+
+            }//onload
+        }
+    </script>
+</body>
+
+</html>
