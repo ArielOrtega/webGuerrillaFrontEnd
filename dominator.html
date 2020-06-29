@@ -52,22 +52,21 @@
         </table>
     </div>
 
-    <div class="container">
-        
+    <div class="container" id="divBuyResource" style.display="none" >        
         <br> <br>
-        <label for="rAssault"> Assault </label> &nbsp &nbsp
-        <input type="number" id="rAssault" value="0" min="0"> <br>
+        <label  for="rBunker" id="labelBunker" style="display: none;"> Bunker  </label> &nbsp &nbsp
+        <input  type="number" id="rBunker" value="0" min="0" style="display: none;"> <br> <br>
 
-        <label for="rBunker"> Bunker </label> &nbsp &nbsp
-        <input type="number" id="rBunker" value="0" min="0"> <br>
+        <label for="rAssault" id="labelAssault" style="display: none;"> Assault </label> &nbsp &nbsp
+        <input type="number" id="rAssault" value="0" min="0" style="display: none;"> <br> <br>
 
-        <label for="rEngineer"> Engineer </label> &nbsp &nbsp  
-        <input type="number" id="rEngineer" value="0" min="0"> <br>
+        <label for="rEngineer" id="labelEngineer" style="display: none;"> Engineer </label> &nbsp &nbsp  
+        <input type="number" id="rEngineer" value="0" min="0" style="display: none;"> <br> <br>
 
-        <label for="rTank"> Tank </label> &nbsp &nbsp 
-        <input type="number" id="rTank" value="0" min="0"> <br> <br>
+        <label for="rTank" id="labelTank" style="display: none;"> Tank </label> &nbsp &nbsp 
+        <input type="number" id="rTank" value="0" min="0" style="display: none;"> <br> <br>
 
-        <a class="btn btn-primary" id="buttonBuy" type="button"  > Buy resources </a>    
+        <a class="btn btn-primary" id="buttonBuy" type="button" onclick="enviar()" style="display: none;"> Buy resources </a>    
     </div>
 
     
@@ -76,7 +75,7 @@
             data = sessionStorage.getItem('url')
             guerrillaName = sessionStorage.getItem('guerrillaName')
             //const requestURL = 'http://' + data + '/guerrilla';
-            const requestURL = 'http://' + data + '/guerrilla/'+ guerrillaName;
+            const requestURL = 'http://' + data + '/guerrilla/'+ 'GregoryArmy';
             //const requestURL = 'http://' + data + '/guerrilla/attack/'+ guerrillaName ;
 
             const request = new XMLHttpRequest();
@@ -123,7 +122,7 @@
                     else if(index==6){
                         var resource = document.createTextNode("Tank");
                         var quantity = document.createTextNode(guerrilla.army.tank);
-                    }
+                    } 
 
                     cellResource.appendChild(resource);
                     cellQuantity.appendChild(quantity);
@@ -132,16 +131,80 @@
                 }//for
                 console.log(guerrilla.name)
 
+                // This will disable just the div
+                //document.getElementById("rBunker").disabled = true;
 
-                var buttonBuy = document.getElementById('buttonBuy');
+                
+
+                //var buttonBuy = document.getElementById('buttonBuy');
                     //buttonBuy.innerHTML = 'Buy resources';
-                    buttonBuy.href = "settings.html";
-                    buttonBuy.value = href="settings.html";
+                    //buttonBuy.href = "settings.html";
+                    //buttonBuy.value = href="settings.html";
                  //const requestURL = 'http://' + data + '/guerrilla/attack/'+ guerrillaName ;    
                     
 
             }//onload
+            
+            toShow();
+
+        }//fuctiion traer
+
+        function toShow(){
+            document.getElementById("labelBunker").style.display = 'inline';
+            document.getElementById("rBunker").style.display = 'inline';
+
+            document.getElementById("labelAssault").style.display = 'inline';
+            document.getElementById("rAssault").style.display = 'inline';
+
+            document.getElementById("labelEngineer").style.display = 'inline';
+            document.getElementById("rEngineer").style.display = 'inline';
+
+            document.getElementById("labelTank").style.display = 'inline';
+            document.getElementById("rTank").style.display = 'inline';
+
+            document.getElementById("buttonBuy").style.display = 'inline';
         }
+
+        var contenido = document.querySelector('#contenido')
+        function enviar() {
+
+            var rBunker = document.getElementById("rBunker").value;      
+            var rAssault = document.getElementById('rAssault').value;
+            var rEngineer = document.getElementById("rEngineer").value;      
+            var rTank = document.getElementById('rTank').value;
+
+            guerrillaName = sessionStorage.getItem('guerrillaName')
+            data = sessionStorage.getItem('url')
+            //const requestURL = 'http://' + data + '/guerrilla/' + guerrillaName +'/units';
+            const requestURL = 'http://' + data + '/guerrilla/' + 'GregoryArmy' +'/units';
+            var params = {
+                assault: rAssault,
+                engineer: rEngineer,
+                tank: rTank,
+                bunker: rBunker
+            }
+            var miInit = {
+                method: 'PUT',
+                mode: 'cors',
+                body: JSON.stringify(params),
+                cache: 'default'
+            };
+
+            (async () => {
+                const rawResponse = await fetch(requestURL, {
+                    method: 'PUT',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(params)
+                });
+                const content = await rawResponse.json();
+
+                console.log(content);
+            })();
+        }
+
     </script>
 </body>
 
