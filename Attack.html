@@ -76,10 +76,8 @@
             document.getElementById("btnVerResultados").disabled = true; 
             data = sessionStorage.getItem('url')
             guerrillaName = sessionStorage.getItem('guerrillaName')
-            //const requestURL = 'http://' + data + '/guerrilla';
-            const requestURL = 'http://' + data + '/guerrilla/attack/'+ 'paquitoArmy'+'?guerrillaSrc='+'gregoryArmy';
-            //const requestURL = 'http://' + data + '/guerrilla/attack/'+ guerrillaName ;
-
+            atacado = sessionStorage.getItem('guerrillaNameAtacado')
+            const requestURL = 'http://' + data + '/guerrilla/attack/'+ atacado+'?guerrillaSrc='+guerrillaName;
             const request = new XMLHttpRequest();
             request.open('POST', requestURL);
             request.responseType = 'json';
