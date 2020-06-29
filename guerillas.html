@@ -73,12 +73,19 @@
                         btn.type = "a";
                         btn.className = "btn btn-primary";
                         btn.value = 'http://' + data + '/guerrilla/attack/' + guerrilla[index].guerrillaName;
-                        btn.href = 'http://' + data + '/guerrilla/attack/' + guerrilla[index].guerrillaName + '?guerrillaSrc=' + sessionStorage.getItem('guerrillaName');
+
+                        btn.href = 'Attack.html';//+ data + '/guerrilla/attack/' + guerrilla[index].guerrillaName + '?guerrillaSrc=' + sessionStorage.getItem('guerrillaName');
                         btn.text = 'attack'
                         newCell2.appendChild(btn);
                     }
                 }
             }
+        }
+        function traerresult(){
+
+
+
+            
         }
     </script>
 </body>
