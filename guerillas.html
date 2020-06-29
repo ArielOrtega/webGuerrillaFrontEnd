@@ -17,8 +17,9 @@
                 <a class="navbar-brand" href="#">WebGuerrilla</a>
             </div>
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Home</a></li>
                 <li><a href="guerillas.html">Guerrilas</a></li>
+                <li><a href="dominator.html">Dominator</a></li>
+                <li><a href="login.html">Registrar</a></li>
                 <li><a href="signin.html">Iniciar Sesion</a></li>
                 <li><a href="settings.html">Settings</a></li>
             </ul>
@@ -68,18 +69,33 @@
                     var newRank = document.createTextNode(guerrilla[index].rank);
                     rankCell.appendChild(newRank);
                     newCell.appendChild(newText);
-                    if (guerrilla[index].name != sessionStorage.getItem('guerrillaName')) {
-                        var btn = document.createElement('a');
-                        btn.type = "a";
+                    if (guerrilla[index].guerrillaName != sessionStorage.getItem('guerrillaName')) {
+                        var btn = document.createElement('button');
+                        btn.type = "button";
                         btn.className = "btn btn-primary";
-                        btn.value = 'http://' + data + '/guerrilla/attack/' + guerrilla[index].guerrillaName;
-                        sessionStorage.setItem('guerrillaNameAtacado',guerrilla[index].guerrillaName)
-                        btn.href = 'Attack.html';//+ data + '/guerrilla/attack/' + guerrilla[index].guerrillaName + '?guerrillaSrc=' + sessionStorage.getItem('guerrillaName');
+                        btn.id = guerrilla[index].guerrillaName;
+                        //btn.href = 'Attack.html';//+ data + '/guerrilla/attack/' + guerrilla[index].guerrillaName + '?guerrillaSrc=' + sessionStorage.getItem('guerrillaName');
                         btn.text = 'attack'
+                        newCell2.onclick = function () {
+                            var c = confirm("Seguro que desea atacar a: " + guerrilla[index].guerrillaName);
+                            if (c === true) {
+                                index = this.parentElement.rowIndex;
+                                sessionStorage.setItem('guerrillaNameAtacado', guerrilla[index-1].guerrillaName)
+                                window.location = "Attack.html"
+                            }
+
+                            //console.log(index);
+                        };
                         newCell2.appendChild(btn);
                     }
                 }
+                //sessionStorage.setItem('guerrillaNameAtacado',guerrilla[index].guerrillaName)
             }
+        }
+        function saveAtacado() {
+            alert(value);
+            sessionStorage.setItem('guerrillaNameAtacado', e.value)
+            window.location = "Attack.html"
         }
 
     </script>

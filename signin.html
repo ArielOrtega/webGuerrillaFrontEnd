@@ -48,10 +48,17 @@
             request.send();
             request.onload = function () {
                 guerrilla = request.response;
-                sessionStorage.setItem('guerrillaName',guerrilla[0].guerrillaName)
-                contenido.innerHTML = `
+                if (typeof guerrilla[0] == 'undefined') {
+                    var c = confirm("Usuario no encontrado, desea registrarse?");
+                    if (c === true) {
+                        window.location = "login.html"
+                    }
+                } else {
+                    sessionStorage.setItem('guerrillaName', guerrilla[0].guerrillaName)
+                    contenido.innerHTML = `
 	                <h3>Bienvenido ${guerrilla[0].guerrillaName}</h3>
 	                `
+                }
             }
             //data = JSON.parse(guerrilla);
 
