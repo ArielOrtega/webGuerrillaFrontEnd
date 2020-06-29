@@ -26,12 +26,12 @@
     </nav>
 
     <div class="container" style="text-align:center;">
-        <label id="nameTitle"> </label> <!-- Muestra el nombre de la guerrilla -->
+        <label id="resultText"> </label> <!-- Muestra el nombre de la guerrilla -->
     </div>
 
 
     <div class="container">
-        <button onclick="traer()">Ver Resultado</button>
+        <button id="btnVerResultados" onclick="traer()">Ver Resultado</button>
     </div>
 
     <div id="contenido" class="container">
@@ -52,7 +52,7 @@
         </table>
     </div>
     <div class="container" style="text-align:center;">
-        <label id="nameTitleResult"> </label> <!-- Muestra el nombre de la guerrilla -->
+        <label id=""> Resultado </label> <!-- Muestra el nombre de la guerrilla -->
     </div>
 
     <div class="container">
@@ -73,6 +73,7 @@
 
     <script>
         function traer() {
+            document.getElementById("btnVerResultados").disabled = true; 
             data = sessionStorage.getItem('url')
             guerrillaName = sessionStorage.getItem('guerrillaName')
             //const requestURL = 'http://' + data + '/guerrilla';
@@ -85,8 +86,8 @@
             request.send();
             request.onload = function () {
                 const salida = request.response;
-                alert("hola:  "+salida.guerrillas.resources.oil);
-                document.getElementById("nameTitle").innerHTML = `<h3> ${guerrilla.name}</h3>`;
+                guerrilla = salida.guerrillas[0]
+                document.getElementById("resultText").innerHTML = `<h3> ${request.statusText}</h3>`;
                  for (let index = 0; index < 7; index++) {
                     var tableRef = document.getElementById('myTable').getElementsByTagName('tbody')[0];
                     var newRow1 = tableRef.insertRow();
@@ -96,31 +97,31 @@
                     if(index==0){
                         //var buyRe = document.createElement()
                         var resource = document.createTextNode("Oil");
-                        var quantity = document.createTextNode(salida.guerrilla.resources.oil);
+                        var quantity = document.createTextNode(guerrilla.resources.oil);
                     }
                     else if(index==1){
                         var resource = document.createTextNode("Money");
-                        var quantity = document.createTextNode(salida.guerrilla.resources.money);
+                        var quantity = document.createTextNode(guerrilla.resources.money);
                     }
                     else if(index==2){
                         var resource = document.createTextNode("People");
-                        var quantity = document.createTextNode(salida.guerrilla.resources.people);
+                        var quantity = document.createTextNode(guerrilla.resources.people);
                     }
                     else if(index==3){
                         var resource = document.createTextNode("Bunker");
-                        var quantity = document.createTextNode(salida.guerrilla.buildings.bunker);
+                        var quantity = document.createTextNode(guerrilla.buildings.bunker);
                     }
                     else if(index==4){
                         var resource = document.createTextNode("Assault");
-                        var quantity = document.createTextNode(salida.guerrilla.army.assault);
+                        var quantity = document.createTextNode(guerrilla.army.assault);
                     }
                     else if(index==5){
                         var resource = document.createTextNode("Engineer");
-                        var quantity = document.createTextNode(salida.guerrilla.army.engineer);
+                        var quantity = document.createTextNode(guerrilla.army.engineer);
                     }
                     else if(index==6){
                         var resource = document.createTextNode("Tank");
-                        var quantity = document.createTextNode(salida.guerrilla.army.tank);
+                        var quantity = document.createTextNode(guerrilla.army.tank);
                     }
 
                     cellResource.appendChild(resource);
@@ -128,12 +129,11 @@
                     //cellbuy.appendChild(buyRe);
 
                 }//for
-                console.log(salida.guerrilla.name)
+                console.log(guerrilla.name)
 
                 //result
 
-
-                document.getElementById("nameTitleResult").innerHTML = `<h3> ${salida.result.name}</h3>`;
+                result = salida.results[0];
                  for (let index = 0; index < 7; index++) {
                     var tableRef2 = document.getElementById('myTable2').getElementsByTagName('tbody')[0];
                     var newRow2 = tableRef2.insertRow();
@@ -143,31 +143,31 @@
                     if(index==0){
                         //var buyRe = document.createElement()
                         var resource2 = document.createTextNode("Oil");
-                        var quantity2 = document.createTextNode(salida.result.resources.oil);
+                        var quantity2 = document.createTextNode(result.resources.oil);
                     }
                     else if(index==1){
                         var resource2 = document.createTextNode("Money");
-                        var quantity2 = document.createTextNode(salida.result.resources.money);
+                        var quantity2 = document.createTextNode(result.resources.money);
                     }
                     else if(index==2){
                         var resource2 = document.createTextNode("People");
-                        var quantity2 = document.createTextNode(salida.result.resources.people);
+                        var quantity2 = document.createTextNode(result.resources.people);
                     }
                     else if(index==3){
                         var resource2 = document.createTextNode("Bunker");
-                        var quantity2 = document.createTextNode(rsalida.esult.buildings.bunker);
+                        var quantity2 = document.createTextNode(result.buildings.bunker);
                     }
                     else if(index==4){
                         var resource2 = document.createTextNode("Assault");
-                        var quantity2 = document.createTextNode(salida.result.army.assault);
+                        var quantity2 = document.createTextNode(result.army.assault);
                     }
                     else if(index==5){
                         var resource2 = document.createTextNode("Engineer");
-                        var quantity2 = document.createTextNode(salida.result.army.engineer);
+                        var quantity2 = document.createTextNode(result.army.engineer);
                     }
                     else if(index==6){
                         var resource2 = document.createTextNode("Tank");
-                        var quantity2 = document.createTextNode(salida.result.army.tank);
+                        var quantity2 = document.createTextNode(result.army.tank);
                     }
 
                     cellResource2.appendChild(resource2);
@@ -175,7 +175,7 @@
                     //cellbuy.appendChild(buyRe);
 
                 }//for
-                console.log(salida.result.name)
+                console.log(result.name)
 
                 //fin result
                     
