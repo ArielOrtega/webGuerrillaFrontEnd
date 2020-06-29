@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ajustes</title>
+    <title>Registrar</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
@@ -19,6 +19,7 @@
             <ul class="nav navbar-nav">
                 <li class="active"><a href="#">Home</a></li>
                 <li><a href="guerillas.html">Guerrilas</a></li>
+                <li><a href="login.html">Registrar</a></li>
                 <li><a href="signin.html">Iniciar Sesion</a></li>
                 <li><a href="settings.html">Settings</a></li>
             </ul>
@@ -26,25 +27,23 @@
     </nav>
     <div class="container">
         <label>Enter the guerrilla data</label>
-        <form>
-            <div>
-                <label>Enter the name</label>
-                <input type="text" id="name" placeholder="">
-            </div>
-            <div>
-                <label>Enter the email</label>
-                <input type="text" id="email" placeholder="">
-            </div>
-            <div>
-                <select id="faction">
-                    <option value="" disabled selected>Select your type guerrila</option>
-                    <option value="China">China</option>
-                    <option value="USMC">USMC</option>
-                    <option value="MEC">MEC</option>
-                </select>
-            </div>
-            <button onclick="traer()">Login</button>
-        </form>
+        <div>
+            <label>Enter the name</label>
+            <input type="text" id="name" placeholder="">
+        </div>
+        <div>
+            <label>Enter the email</label>
+            <input type="text" id="email" placeholder="">
+        </div>
+        <div>
+            <select id="faction">
+                <option value="" disabled selected>Select your type guerrila</option>
+                <option value="China">China</option>
+                <option value="USMC">USMC</option>
+                <option value="MEC">MEC</option>
+            </select>
+        </div>
+        <button onclick="enviar()">Login</button>
     </div>
 
     <div id="contenido">
@@ -52,35 +51,39 @@
     </div>
     <script>
         var contenido = document.querySelector('#contenido')
-        function traer() {
+        function enviar() {
             var combo = document.getElementById("faction");
             var faction = combo.options[combo.selectedIndex].text;
             guerrillaName = document.getElementById('name').value;
-            dataName = sessionStorage.setItem('guerrillaName', guerrillaName);
+            sessionStorage.setItem('guerrillaName', guerrillaName);
             guerrillaEmail = document.getElementById('email').value;
             data = sessionStorage.getItem('url')
-            const requestURL = 'http://' +data+ '/guerrilla/'+ guerrillaName;
-            const request = new XMLHttpRequest();
-            request.open('POST', requestURL);
-            request.responseType = 'json';
-            
+            const requestURL = 'http://' + data + '/guerrilla/' + guerrillaName;
             var params = {
+                name: guerrillaName,
                 email: guerrillaEmail,
                 faction: faction
             }
-            request.send(JSON.stringify(params));
+            var miInit = {
+                method: 'POST',
+                mode: 'cors',
+                body: JSON.stringify(params),
+                cache: 'default'
+            };
 
-            //request.send();
-            request.onload = function () {
-                const guerrilla = request.response;
-                //data = JSON.parse(guerrilla);
-                if(guerrilla.lenght > 0 ){
-                    contenido.innerHTML = `
-	                <h3>Bienvenido ${guerrilla[0].name}</h3>
-	                `
-                }
-                alert(guerrilla.name)
-            }
+            (async () => {
+                const rawResponse = await fetch(requestURL, {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(params)
+                });
+                const content = await rawResponse.json();
+                document.getElementById("demo").innerHTML = "Direccion Guardada";
+                console.log(content);
+            })();
         }
     </script>
 </body>

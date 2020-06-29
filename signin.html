@@ -19,6 +19,7 @@
             <ul class="nav navbar-nav">
                 <li class="active"><a href="#">Home</a></li>
                 <li><a href="guerillas.html">Guerrilas</a></li>
+                <li><a href="login.html">Registrar</a></li>
                 <li><a href="signin.html">Iniciar Sesion</a></li>
                 <li><a href="settings.html">Settings</a></li>
             </ul>
@@ -39,7 +40,6 @@
         function traer() {
             data = sessionStorage.getItem('url')
             guerrillaName = document.getElementById('name').value;
-            sessionStorage.setItem('guerrillaName', guerrillaName);
             const requestURL = 'http://' + data + '/guerrilla/?email=' + guerrillaName;
             const request = new XMLHttpRequest();
             request.open('GET', requestURL);
@@ -47,9 +47,9 @@
             request.send();
             request.onload = function () {
                 guerrilla = request.response;
-                sessionStorage.setItem('guerrillaName',guerrilla[0].name)
+                sessionStorage.setItem('guerrillaName',guerrilla[0].guerrillaName)
                 contenido.innerHTML = `
-	                <h3>Bienvenido ${guerrilla[0].name}</h3>
+	                <h3>Bienvenido ${guerrilla[0].guerrillaName}</h3>
 	                `
             }
             //data = JSON.parse(guerrilla);
