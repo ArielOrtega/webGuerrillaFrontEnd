@@ -77,7 +77,8 @@
             guerrillaName = sessionStorage.getItem('guerrillaName')
             //const requestURL = 'http://' + data + '/guerrilla';
             const requestURL = 'http://' + data + '/guerrilla/'+ guerrillaName;
-
+            //vaciar tabla
+            $("#myTable tr").remove(); 
             const request = new XMLHttpRequest();
             request.open('GET', requestURL);
             request.responseType = 'json';
@@ -200,7 +201,7 @@
                     body: JSON.stringify(params)
                 });
                 const content = await rawResponse.json();
-
+                traer();
                 console.log(content);
             })();
         }
